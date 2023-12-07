@@ -1,0 +1,31 @@
+name: Code Review with SmartCoder
+on:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+permissions: write-all
+jobs:
+  code_review:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - uses: hmarr/debug-action@v2
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16.x'
+          scope: '@smart-coder'
+      - name: Install dependencies
+        run: yarn --frozen-lockfile
+      - name: Code Review
+        uses: ./
+        timeout-minutes: 30
+        with:
+          GITHUB_TOKEN: ${{ secrets.GIT_HUB_API_KEY }}
+          SMART_CODER_API_URL: ${{ vars.SMART_CODER_API_URL }}
+          SMART_CODER_API_KEY: ${{ secrets.SMART_CODER_API_KEY }}
+          exclude: "yarn.lock,dist/**"
