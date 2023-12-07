@@ -234,8 +234,6 @@ async function main() {
     readFileSync(process.env.GITHUB_EVENT_PATH ?? "", "utf8")
   );
 
-  console.log("eventData: ", eventData);
-
   if (eventData.action === "opened" || eventData.action === "reopened") {
     diff = await getDiff(
       prDetails.owner,
@@ -293,5 +291,4 @@ async function main() {
 
 main().catch((error) => {
   console.error("Error:", error);
-  process.exit(1);
 });
