@@ -227,6 +227,7 @@ async function createReviewComment(
 }
 
 async function main() {
+  console.log("process.env.GITHUB_EVENT_PATH", process.env.GITHUB_EVENT_PATH);
   const prDetails = await getPRDetails();
   let diff: string | null;
   const eventData = JSON.parse(
